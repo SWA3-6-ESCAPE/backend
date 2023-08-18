@@ -24,7 +24,7 @@ public class Report {
     @Column(name = "category1")
     private Boolean category1;
 
-    @Column(name ="content")
+    @Column(name ="category2")
     private String category2;
 
     @Column(name = "detail")
