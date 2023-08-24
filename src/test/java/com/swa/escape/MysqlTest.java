@@ -1,5 +1,6 @@
 package com.swa.escape;
 
+import com.swa.escape.domain.Category2;
 import com.swa.escape.domain.Report;
 import com.swa.escape.repository.ReportRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,7 @@ public class MysqlTest {
     void CreateReport() {
         Report report = Report.builder()
                 .category1(null)
-                .category2(null)
+                .category2(Category2.fire)
                 .detail("test detail")
                 .latitude(0)
                 .longitude(0)

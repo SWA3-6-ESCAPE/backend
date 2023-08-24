@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 
 @Entity
 @Table(name = "report")
@@ -24,8 +25,8 @@ public class Report {
     @Column(name = "category1")
     private Boolean category1;
 
-    @Column(name ="category2")
-    private String category2;
+    @Enumerated(EnumType.STRING)
+    private Category2 category2;
 
     @Column(name = "detail")
     private String detail;
