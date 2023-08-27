@@ -19,7 +19,7 @@ public class MysqlTest {
     void CreateReport() {
         Report report = Report.builder()
                 .category1(null)
-                .category2(Category2.fire)
+                .category2(Category2.FIRE)
                 .detail("test detail")
                 .latitude(0)
                 .longitude(0)
