@@ -19,8 +19,8 @@ import java.util.Optional;
 public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id")
-    private int id;
+    @Column(name = "report_id")
+    private int reportId;
 
     @Column(name = "category1")
     private Boolean category1;
@@ -39,4 +39,10 @@ public class Report {
 
     @Column(name = "created_time", columnDefinition = "TIMESTAMP", nullable = false, updatable = false)
     private final LocalDateTime created_time = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+
+    @Column(name = "event", nullable = true)
+    @ManyToOne
+    @JoinColumn(name = "report_id")
+    private Event event;
+
 }
