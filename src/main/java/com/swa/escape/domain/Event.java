@@ -20,19 +20,19 @@ import java.time.LocalDateTime;
 public class Event {
 
     @Id
-    @Column(name = "eventId")
+    @Column(name = "event_id")
     private int eventId;
 
-    @Column
+    @Column(name = "event_time")
     private final LocalDateTime eventTime = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
 
-    @Column
+    @Column(name = "event_latitude")
     private float latitude;
 
-    @Column
-    private float longitude;
-    @OneToMany(mappedBy = "report_id") // 수정해야 함
-    private List<Report> reports = new ArrayList<>();
 
-    // EventTable - Report Table
+    @Column(name = "event_longitude")
+    private float longitude;
+
+    @OneToMany(mappedBy = "event")
+    private List<Report> reports = new ArrayList<>();
 }
