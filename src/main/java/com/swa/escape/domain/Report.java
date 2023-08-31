@@ -31,18 +31,17 @@ public class Report {
     @Column(name = "detail")
     private String detail;
 
-    @Column(name = "latitude", nullable = false)
+    @Column(name = "report_latitude", nullable = false)
     private float latitude;
 
-    @Column(name = "longitude", nullable = false)
+    @Column(name = "report_longitude", nullable = false)
     private float longitude;
 
     @Column(name = "created_time", columnDefinition = "TIMESTAMP", nullable = false, updatable = false)
     private final LocalDateTime created_time = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
 
-    @Column(name = "event", nullable = true)
     @ManyToOne
-    @JoinColumn(name = "report_id")
+    @JoinColumn(name = "event_id")
     private Event event;
 
 }
