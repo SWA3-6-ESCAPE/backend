@@ -28,9 +28,9 @@ public class MysqlTest {
         // DB에 저장
         reportRepository.save(report);
 
-        Report savedReport = reportRepository.findById(report.getId()).orElse(null);
+        Report savedReport = reportRepository.findById(report.getReportId()).orElse(null);
         assert savedReport != null;
-        assert report.getId() == savedReport.getId();
+        assert report.getReportId() == savedReport.getReportId();
         assert report.getDetail().equals(savedReport.getDetail());
     }
 }
