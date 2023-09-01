@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Optional;
 
 @Entity
 @Table(name = "report")
@@ -19,7 +18,7 @@ import java.util.Optional;
 public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id")
+    @Column(name = "report_id")
     private int id;
 
     @Column(name = "category1")
@@ -31,10 +30,10 @@ public class Report {
     @Column(name = "detail")
     private String detail;
 
-    @Column(name = "latitude", nullable = false)
+    @Column(name = "report_latitude", nullable = false)
     private float latitude;
 
-    @Column(name = "longitude", nullable = false)
+    @Column(name = "report_longitude", nullable = false)
     private float longitude;
 
     @Column(name = "created_time", columnDefinition = "TIMESTAMP", nullable = false, updatable = false)
