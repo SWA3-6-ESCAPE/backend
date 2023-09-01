@@ -1,16 +1,16 @@
 package com.swa.escape.domain;
 
 public enum Category2 {
-    traffic_accident, // 교통사고
-    weapon_rampage, // 흉기 난동
-    theft, // 절도
-    assault, // 폭행
-    robbery, // 강도
-    ect_crime, // 기타 범죄
-    fire, // 화재
-    flood, // 침수
-    landslide, // 산사태
-    facility_damage, // 시설 파손
-    electrical_short, // 누전
-    ect_disaster // 기타 재난
+    TRAFFIC_ACCIDENT, // 교통사고
+    WEAPON_RAMPAGE, // 흉기 난동
+    THEFT, // 절도
+    ASSAULT, // 폭행
+    ROBBERY, // 강도
+    ECT_CRIME, // 기타 범죄
+    FIRE, // 화재
+    FLOOD, // 침수
+    LANDSLIDE, // 산사태
+    FACILITY_DAMAGE, // 시설 파손
+    ELECTRICAL_SHORT, // 누전
+    ECT_DISASTER // 기타 재난
 }

@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Optional;
 
 @Entity
 @Table(name = "report")
@@ -20,8 +19,9 @@ public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "report_id")
+ 
     private int reportId;
-
+ 
     @Column(name = "category1")
     private Boolean category1;
 
