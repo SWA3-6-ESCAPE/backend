@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import lombok.Setter;
 
 @Entity
 @Table(name = "report")
@@ -15,6 +16,7 @@ import java.time.temporal.ChronoUnit;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
