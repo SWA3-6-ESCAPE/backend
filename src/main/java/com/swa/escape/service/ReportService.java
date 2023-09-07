@@ -50,6 +50,8 @@ public class ReportService implements ReportServiceImpl {
             return reportRepository.save(existingReport);
         }
 
-        return null;
+        else {
+            throw new IllegalArgumentException("해당 id의 리포트가 없습니다");
+        }
     }
 }
