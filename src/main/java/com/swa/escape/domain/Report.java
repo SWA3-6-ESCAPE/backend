@@ -1,22 +1,17 @@
 package com.swa.escape.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import lombok.Setter;
 
 @Entity
 @Table(name = "report")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Getter @Setter
 public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
