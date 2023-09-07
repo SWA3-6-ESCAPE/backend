@@ -16,6 +16,6 @@ import java.util.function.Function;
 
 
 public interface ReportRepository extends JpaRepository<Report, Integer> {
-    List<Report> findAllReportByEventId(int eventId);
+    List<Report> findAllReportByEvent_EventId(int eventId);
 
 }
