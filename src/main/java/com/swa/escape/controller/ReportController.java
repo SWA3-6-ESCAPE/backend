@@ -32,7 +32,7 @@ public class ReportController {
   @GetMapping("/report/{id}")
   public ResponseEntity<Report> getReport(@PathVariable int id) {
     Report report = Report.builder()
-        .id(id)
+        .reportId(id)
         .category1(true)
         .category2(Category2.ASSAULT)
         .latitude(36.366535F)
@@ -47,7 +47,7 @@ public class ReportController {
   @PatchMapping("/report/{id}")
   public ResponseEntity<Report> updateReport(@PathVariable int id, @RequestBody ReportModifyRequest reportRequest) {
     Report report = Report.builder()
-        .id(id)
+        .reportId(id)
         .category1(true)
         .category2(reportRequest.getCategory2())
         .latitude(36.366535F)
@@ -62,7 +62,7 @@ public class ReportController {
   @DeleteMapping("/report/{id}")
   public ResponseEntity<Report> deleteReport(@PathVariable int id) {
     Report report = Report.builder()
-        .id(id)
+        .reportId(id)
         .category1(true)
         .category2(Category2.ASSAULT)
         .latitude(36.366535F)

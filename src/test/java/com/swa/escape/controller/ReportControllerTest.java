@@ -60,7 +60,7 @@ class ReportControllerTest {
     mockMvc.perform(
             get(("/api/report/" + testId)))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.id").value(testId))
+        .andExpect(jsonPath("$.reportId").value(testId))
         .andExpect(jsonPath("$.category1").value(true))
         .andExpect(jsonPath("$.category2").value("ASSAULT"))
         .andExpect(jsonPath("$.latitude").value(36.366535F))
@@ -84,7 +84,7 @@ class ReportControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(reportRequest)))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.id").value(testId))
+        .andExpect(jsonPath("$.reportId").value(testId))
         .andExpect(jsonPath("$.category2").value(Category2.ASSAULT.toString()))
         .andExpect(jsonPath("$.detail").value("detail"))
         .andDo(print()
@@ -100,7 +100,7 @@ class ReportControllerTest {
     mockMvc.perform(
             get(("/api/report/" + testId)))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.id").value(testId))
+        .andExpect(jsonPath("$.reportId").value(testId))
         .andExpect(jsonPath("$.category1").value(true))
         .andExpect(jsonPath("$.category2").value(Category2.ASSAULT.toString()))
         .andExpect(jsonPath("$.latitude").value(36.366535F))

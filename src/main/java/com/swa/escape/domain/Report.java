@@ -15,9 +15,10 @@ import java.time.temporal.ChronoUnit;
 public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id")
-    private int id;
-
+    @Column(name = "report_id")
+ 
+    private int reportId;
+ 
     @Column(name = "category1")
     private Boolean category1;
 
@@ -27,12 +28,17 @@ public class Report {
     @Column(name = "detail")
     private String detail;
 
-    @Column(name = "latitude", nullable = false)
+    @Column(name = "report_latitude", nullable = false)
     private float latitude;
 
-    @Column(name = "longitude", nullable = false)
+    @Column(name = "report_longitude", nullable = false)
     private float longitude;
 
     @Column(name = "created_time", columnDefinition = "TIMESTAMP", nullable = false, updatable = false)
     private final LocalDateTime created_time = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+
+    @ManyToOne
+    @JoinColumn(name = "event_id")
+    private Event event;
+
 }
