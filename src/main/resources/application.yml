@@ -1,9 +1,7 @@
+# 공통 설정
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/escape?serverTimezone=Asia/Seoul
-    username: root
-    password: 1234
+  profiles:
+      active: dev
   jpa:
     open-in-view: true
     hibernate:
@@ -14,3 +12,29 @@ spring:
     properties:
       # 로그에 sql 문을 formatting 해서 출력
       hibernate.format_sql: true
+
+---
+
+# 개발환경 설정
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/escape?serverTimezone=Asia/Seoul
+    username: root
+    password: 1234
+
+---
+
+# 운영환경 설정
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${MYSQL_URL}
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
