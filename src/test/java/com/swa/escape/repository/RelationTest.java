@@ -7,12 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 @Slf4j
 @DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class RelationTest {
   @Autowired
   private ReportRepository reportRepository;
@@ -23,14 +21,11 @@ public class RelationTest {
   @DisplayName("Event와 Report의 생성 테스트")
   public void createTest() {
     // Given
-    int testId = 1;
     Event event = Event.builder()
-            .eventId(testId)
             .latitude(1.0f)
             .longitude(1.0f)
             .build();
     Report report = Report.builder()
-            .reportId(testId)
             .category1(null)
             .category2(Category2.FIRE)
             .detail("test detail")
@@ -41,16 +36,17 @@ public class RelationTest {
     event.addReport(report);
 
     // When
-    eventRepository.save(event);
+    int eventId = eventRepository.save(event).getEventId();
 
     // Then
-    Event savedEvent = eventRepository.findById(testId).orElse(null);
+    Event savedEvent = eventRepository.findById(eventId).orElse(null);
     assert savedEvent != null;
     assert savedEvent.getEventId() == event.getEventId();
     assert savedEvent.getLatitude() == event.getLatitude();
     assert savedEvent.getLongitude() == event.getLongitude();
 
-    Report savedReport = reportRepository.findById(testId).orElse(null);
+    int reportId = savedEvent.getReports().get(0).getReportId();
+    Report savedReport = reportRepository.findById(reportId).orElse(null);
     assert savedReport != null;
     assert report.getReportId() == savedReport.getReportId();
     assert report.getDetail().equals(savedReport.getDetail());
@@ -60,14 +56,11 @@ public class RelationTest {
   @DisplayName("Report의 Event 조회 테스트")
   public void getEventByReportTest() {
     // Given
-    int testId = 1;
     Event event = Event.builder()
-        .eventId(testId)
         .latitude(1.0f)
         .longitude(1.0f)
         .build();
     Report report = Report.builder()
-        .reportId(testId)
         .category1(null)
         .category2(Category2.FIRE)
         .detail("test detail")
@@ -76,14 +69,14 @@ public class RelationTest {
         .build();
 
     event.addReport(report);
-    eventRepository.save(event);
 
     // When
-    Report savedReport = reportRepository.findById(testId).orElse(null);
-    assert savedReport != null;
-    Event savedEvent = savedReport.getEvent();
+    int eventId = eventRepository.save(event).getEventId();
 
     // Then
+    Report savedReport = reportRepository.findById(eventId).orElse(null);
+    assert savedReport != null;
+    Event savedEvent = savedReport.getEvent();
     assert savedEvent != null;
     assert savedEvent.getEventId() == event.getEventId();
     assert savedEvent.getLatitude() == event.getLatitude();
@@ -94,14 +87,11 @@ public class RelationTest {
   @DisplayName("Event의 Report 조회 테스트")
   public void getReportsByEventTest() {
     // Given
-    int testId = 1;
     Event event = Event.builder()
-        .eventId(testId)
         .latitude(1.0f)
         .longitude(1.0f)
         .build();
     Report report = Report.builder()
-        .reportId(testId)
         .category1(null)
         .category2(Category2.FIRE)
         .detail("test detail")
@@ -110,10 +100,10 @@ public class RelationTest {
         .build();
 
     event.addReport(report);
-    eventRepository.save(event);
+    int eventId = eventRepository.save(event).getEventId();
 
     // When
-    Event savedEvent = eventRepository.findById(testId).orElse(null);
+    Event savedEvent = eventRepository.findById(eventId).orElse(null);
     assert savedEvent != null;
     Report savedReport = savedEvent.getReports().get(0);
 
@@ -127,14 +117,11 @@ public class RelationTest {
   @DisplayName("Event의 Report 삭제 테스트")
   public void deleteReportByEventTest() {
     // Given
-    int testId = 1;
     Event event = Event.builder()
-        .eventId(testId)
         .latitude(1.0f)
         .longitude(1.0f)
         .build();
     Report report = Report.builder()
-        .reportId(testId)
         .category1(null)
         .category2(Category2.FIRE)
         .detail("test detail")
@@ -143,20 +130,21 @@ public class RelationTest {
         .build();
 
     event.addReport(report);
-    eventRepository.save(event);
+    int eventId = eventRepository.save(event).getEventId();
 
     // When
-    Event savedEvent = eventRepository.findById(testId).orElse(null);
+    Event savedEvent = eventRepository.findById(eventId).orElse(null);
     assert savedEvent != null;
-    savedEvent.removeReport(savedEvent.getReports().get(0));
+    Report savedReport = savedEvent.getReports().get(0);
+    savedEvent.removeReport(savedReport);
     eventRepository.save(savedEvent);
 
     // Then
-    Event deletedEvent = eventRepository.findById(testId).orElse(null);
+    Event deletedEvent = eventRepository.findById(eventId).orElse(null);
     assert deletedEvent != null;
     assert deletedEvent.getReports().size() == 0;
 
-    Report deletedReport = reportRepository.findById(testId).orElse(null);
+    Report deletedReport = reportRepository.findById(savedReport.getReportId()).orElse(null);
     assert deletedReport != null;
     assert deletedReport.getEvent() == null;
   }
