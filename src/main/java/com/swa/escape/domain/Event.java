@@ -42,6 +42,8 @@ public class Event {
     @Enumerated(EnumType.STRING)
     private EventStatus eventStatus;
 
+
+
     public void addReport(Report report) {
         reports.add(report);
         report.setEvent(this);
@@ -51,4 +53,14 @@ public class Event {
         reports.remove(report);
         report.setEvent(null);
     }
+
+    // 넣으려면 넣어도 좋습니다.
+    // EventService 구현할 때 편할 거 같아서 넣었습니다.
+    // 필요없으면 다 지워도 됩니다.
+    public boolean isPopAlarm(){
+        int reportCnt = reports.size();
+        // do alarm
+        return reportCnt >= 10 && eventStatus == EventStatus.AWAITING;
+    }
+
 }
