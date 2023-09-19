@@ -1,5 +1,6 @@
 package com.swa.escape.domain;
 
+import com.swa.escape.utils.Calcul;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
