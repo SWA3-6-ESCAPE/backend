@@ -39,6 +39,8 @@ public class Event {
     @OneToMany(mappedBy = "event", cascade= CascadeType.ALL)
     private List<Report> reports = new ArrayList<>();
 
+    @Enumerated(EnumType.STRING)
+    private EventStatus eventStatus;
 
     public void addReport(Report report) {
         reports.add(report);
