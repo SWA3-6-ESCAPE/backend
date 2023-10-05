@@ -38,11 +38,6 @@ public class EventService implements EventServiceImpl {
         return eventRepository.findById(eventId);
     }
 
-    // 이벤트 수정
-    @Override
-    public Event updateEvent(Event event) {
-        return null;
-    }
 
     // 이벤트 삭제
     @Override
@@ -58,6 +53,8 @@ public class EventService implements EventServiceImpl {
             activeEvent.setEventStatus(EventStatus.ACTIVE);
 
             eventRepository.save(activeEvent);
+
+            // 활성화 후 알림을 ios 에게 전달해야 함
         }
     }
 
@@ -67,9 +64,4 @@ public class EventService implements EventServiceImpl {
 
     }
 
-    // 이벤트가 활성되는 조건 검사 -> 10 인지 아닌지
-    @Override
-    public boolean checkActivationCondition(Event event) {
-        return false;
-    }
 }

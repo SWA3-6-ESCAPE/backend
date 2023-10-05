@@ -1,9 +1,13 @@
 package com.swa.escape.service;
 
+import com.swa.escape.domain.Event;
 import com.swa.escape.domain.Report;
+import com.swa.escape.dto.EventCreateRequest;
 import com.swa.escape.dto.ReportCreateRequest;
 import com.swa.escape.dto.ReportModifyRequest;
+import com.swa.escape.repository.EventRepository;
 import com.swa.escape.repository.ReportRepository;
+import com.swa.escape.utils.Calcul;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +19,8 @@ import java.util.Optional;
 public class ReportService implements ReportServiceImpl {
 
     private final ReportRepository reportRepository;
+    private final EventRepository eventRepository;
+    private final EventService eventService;
 
     /**
      * 리포트 생성
@@ -32,17 +38,30 @@ public class ReportService implements ReportServiceImpl {
 
         reportRepository.save(newReport);
 
-        // 반경 1km 내에 속하는 이벤트가 있는 지 확인, 해당 이벤트에 10개의 리포트가 있는 지 확인
+        // 반경 1km 내에 속하는 이벤트가 있는 지
         // 없다면 createEvent 호출
-        if () {
+        for (Event e : eventRepository.findAll()) {
+            double distance = Calcul.haversine(e.getLatitude(), e.getLongitude(), newReport.getLatitude(), newReport.getLongitude());
+            if (distance < 1.0) {
+                e.getReports().add(newReport);
+                eventRepository.save(e);
 
+                // 해당 이벤트에 10개의 리포트가 채워졌는 지 -> 채워졌다면 이벤트 활성화
+                if (e.getReports().size() == 10) {
+                    eventService.enableEvent(e.getEventId());
+                }
 
-        } else {
+                break;
+            } else {
+                EventCreateRequest eventRequest = new EventCreateRequest();
+                eventRequest.setEvent_latitude(newReport.getLatitude());
+                eventRequest.setEvent_longitude(newReport.getLongitude());
 
-
+                eventService.createEvent(eventRequest);
+            }
         }
 
-        return null;
+        return newReport;
     }
 
     @Override
