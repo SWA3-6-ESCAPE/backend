@@ -64,4 +64,11 @@ public class Event {
         return reportCnt >= 10 && eventStatus == EventStatus.AWAITING;
     }
 
+    public double distanceReport(Report report) {
+        double lat1 = report.getLatitude();
+        double lon1 = report.getLongitude();
+        double lat2 = latitude;
+        double lon2 = longitude;
+        return Calcul.haversine(lat1, lon1, lat2, lon2);
+    }
 }
