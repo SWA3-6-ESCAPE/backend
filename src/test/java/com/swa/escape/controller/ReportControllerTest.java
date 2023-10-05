@@ -151,7 +151,8 @@ class ReportControllerTest {
     reportRequest.setCategory2(Category2.ASSAULT);
     reportRequest.setDetail("detail");
 
-    when(reportService.updateReport(eq(testId), any(ReportModifyRequest.class))).thenThrow(new IllegalArgumentException());
+    when(reportService.updateReport(eq(testId), any(ReportModifyRequest.class))).thenThrow(
+        new IllegalArgumentException());
 
     // when // then
     mockMvc.perform(
@@ -159,26 +160,6 @@ class ReportControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(reportRequest)))
         .andExpect(status().isNotFound())
-        .andDo(print()
-        );
-  }
-
-  @Test
-  @Disabled
-  void deleteReportTest() throws Exception {
-    // given
-    int testId = 1;
-
-    // when // then
-    mockMvc.perform(
-            get(("/api/report/" + testId)))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.reportId").value(testId))
-        .andExpect(jsonPath("$.category1").value(true))
-        .andExpect(jsonPath("$.category2").value(Category2.ASSAULT.toString()))
-        .andExpect(jsonPath("$.latitude").value(36.366535F))
-        .andExpect(jsonPath("$.longitude").value(127.344508F))
-        .andExpect(jsonPath("$.detail").value("detail"))
         .andDo(print()
         );
   }

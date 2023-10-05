@@ -51,11 +51,4 @@ public class ReportController {
       return ResponseEntity.notFound().build();
     }
   }
-
-  // id에 해당하는 Report 삭제하는 API
-//  @DeleteMapping("/report/{id}")
-//  public ResponseEntity<Report> deleteReport(@PathVariable int id) {
-//    Report report = reportService.deleteReport(id);
-//    return ResponseEntity.ok(report);
-//  }
 }
