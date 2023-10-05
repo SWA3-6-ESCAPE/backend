@@ -26,11 +26,13 @@ public class EventService implements EventServiceImpl {
         return eventRepository.save(newEvent);
     }
 
+  
     // 전체 이벤트 조회
     @Override
     public List<Event> getEvents() {
         return eventRepository.findAll();
     }
+  
 
     // 개별 이벤트 조회
     @Override
@@ -45,6 +47,7 @@ public class EventService implements EventServiceImpl {
         eventRepository.deleteById(eventId);
     }
 
+  
     // 이벤트 활성화
     public void enableEvent(int eventId) {
         Optional<Event> optionalEvent = eventRepository.findById(eventId);
@@ -58,10 +61,12 @@ public class EventService implements EventServiceImpl {
         }
     }
 
+  
     // 알림 생성
     @Override
     public void sendNotifications(Event event) {
 
     }
+
 
 }
