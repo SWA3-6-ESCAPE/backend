@@ -17,6 +17,8 @@ public interface EventServiceImpl {
 
     void deleteEvent(int eventId);
 
+    void enableEvent(int eventId);
+
     void sendNotifications(Event event);
 
     boolean checkActivationCondition(Event event);

@@ -1,6 +1,7 @@
 package com.swa.escape.service;
 
 import com.swa.escape.domain.Event;
+import com.swa.escape.domain.EventStatus;
 import com.swa.escape.dto.EventCreateRequest;
 import com.swa.escape.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
@@ -47,6 +48,17 @@ public class EventService implements EventServiceImpl {
     @Override
     public void deleteEvent(int eventId) {
         eventRepository.deleteById(eventId);
+    }
+
+    // 이벤트 활성화
+    public void enableEvent(int eventId) {
+        Optional<Event> optionalEvent = eventRepository.findById(eventId);
+        if (optionalEvent.isPresent()) {
+            Event activeEvent = optionalEvent.get();
+            activeEvent.setEventStatus(EventStatus.ACTIVE);
+
+            eventRepository.save(activeEvent);
+        }
     }
 
     // 알림 생성
