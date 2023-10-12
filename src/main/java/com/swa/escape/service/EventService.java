@@ -1,6 +1,7 @@
 package com.swa.escape.service;
 
 import com.swa.escape.domain.Event;
+import com.swa.escape.domain.EventStatus;
 import com.swa.escape.dto.EventCreateRequest;
 import com.swa.escape.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,11 +26,13 @@ public class EventService implements EventServiceImpl {
         return eventRepository.save(newEvent);
     }
 
+  
     // 전체 이벤트 조회
     @Override
     public List<Event> getEvents() {
         return eventRepository.findAll();
     }
+  
 
     // 개별 이벤트 조회
     @Override
@@ -37,11 +40,6 @@ public class EventService implements EventServiceImpl {
         return eventRepository.findById(eventId);
     }
 
-    // 이벤트 수정
-    @Override
-    public Event updateEvent(Event event) {
-        return null;
-    }
 
     // 이벤트 삭제
     @Override
@@ -49,15 +47,26 @@ public class EventService implements EventServiceImpl {
         eventRepository.deleteById(eventId);
     }
 
+  
+    // 이벤트 활성화
+    public void enableEvent(int eventId) {
+        Optional<Event> optionalEvent = eventRepository.findById(eventId);
+        if (optionalEvent.isPresent()) {
+            Event activeEvent = optionalEvent.get();
+            activeEvent.setEventStatus(EventStatus.ACTIVE);
+
+            eventRepository.save(activeEvent);
+
+            // 활성화 후 알림을 ios 에게 전달해야 함
+        }
+    }
+
+  
     // 알림 생성
     @Override
     public void sendNotifications(Event event) {
 
     }
 
-    // 이벤트가 활성되는 조건 검사 -> 10 인지 아닌지
-    @Override
-    public boolean checkActivationCondition(Event event) {
-        return false;
-    }
+
 }
