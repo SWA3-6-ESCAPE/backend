@@ -13,11 +13,10 @@ public interface EventServiceImpl {
 
     Optional<Event> getEvent(int eventId);
 
-    Event updateEvent(Event event);
-
     void deleteEvent(int eventId);
+
+    void enableEvent(int eventId);
 
     void sendNotifications(Event event);
 
-    boolean checkActivationCondition(Event event);
 }
