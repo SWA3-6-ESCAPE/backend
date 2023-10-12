@@ -10,6 +10,4 @@ import java.util.List;
 public interface EventRepository extends JpaRepository<Event, Integer> {
 
 
-    @Query("SELECT e FROM Event e")
-    public List<Event> findAllEvents();
 }
