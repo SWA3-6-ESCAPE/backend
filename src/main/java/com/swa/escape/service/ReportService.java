@@ -42,21 +42,20 @@ public class ReportService implements ReportServiceImpl {
         newReport.setLatitude(reportRequest.getLatitude());
         newReport.setLongitude(reportRequest.getLongitude());
 
-        reportRepository.save(newReport);
-
         // 없다면 createEvent 호출
         for (Event e : eventRepository.findAll()) {
             double distance = Calcul.haversine(e.getLatitude(), e.getLongitude(), newReport.getLatitude(), newReport.getLongitude());
             // 1km 이내에 이벤트가 있는 경우
             if (distance < EVENT_RADIUS) {
-                e.getReports().add(newReport);
+                newReport.setEvent(e);
 
                 // 10개가 채워졌으면 이벤트 활성화
                 if (e.getReports().size() == REPORT_LIMIT) {
                     eventService.enableEvent(e.getEventId());
                 }
                 // 귀속
-                eventRepository.save(e);
+                reportRepository.save(newReport);
+                newReport.setEvent(e);
 
                 // 함수 종료
                 return newReport;
@@ -70,7 +69,9 @@ public class ReportService implements ReportServiceImpl {
         eventRequest.setEvent_longitude(newReport.getLongitude());
         eventRequest.setEventStatus(EventStatus.AWAITING);
 
-        eventService.createEvent(eventRequest);
+        Event event = eventService.createEvent(eventRequest);
+        event.addReport(newReport);
+        reportRepository.save(newReport);
 
         return newReport;
     }

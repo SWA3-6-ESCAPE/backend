@@ -1,5 +1,6 @@
 package com.swa.escape.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.swa.escape.utils.Calcul;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -38,6 +39,7 @@ public class Event {
 
     @Builder.Default
     @OneToMany(mappedBy = "event", cascade= CascadeType.ALL)
+    @JsonManagedReference
     private List<Report> reports = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
