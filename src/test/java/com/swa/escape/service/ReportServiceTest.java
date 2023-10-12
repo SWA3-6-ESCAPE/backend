@@ -1,9 +1,12 @@
 package com.swa.escape.service;
 
 import com.swa.escape.domain.Category2;
+import com.swa.escape.domain.Event;
 import com.swa.escape.domain.Report;
+import com.swa.escape.dto.EventCreateRequest;
 import com.swa.escape.dto.ReportCreateRequest;
 import com.swa.escape.dto.ReportModifyRequest;
+import com.swa.escape.repository.EventRepository;
 import com.swa.escape.repository.ReportRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +23,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @Slf4j
@@ -29,31 +33,83 @@ class ReportServiceTest {
     @Mock
     private ReportRepository reportRepository;
 
+    @Mock
+    private EventRepository eventRepository;
+
+    @Mock
+    private EventService eventService;
+
     @InjectMocks
     private ReportService reportService;
 
     @Test
-    @DisplayName("리포트 생성")
-    void createReport() {
-        //given
-        Report report = Report.builder()
+    @DisplayName("리포트 생성 : same event")
+    void createReportWithSameEvent() {
+        // given
+        // 공대 5호관
+        Event origin_event = Event.builder()
+            .eventId(1)
+            .latitude(36.366526F)
+            .longitude(127.34431F)
+            .build();
+        // 쪽문
+        Report new_report = Report.builder()
                 .reportId(1)
-                .category1(true)
-                .latitude(36.366535F)
-                .longitude(127.344508F)
+                .category1(false)
+                .latitude(36.3635F)
+                .longitude(127.3472F)
                 .build();
-        when(reportRepository.save(any(Report.class))).thenReturn(report);
 
-        //when
+        when(eventRepository.findAll()).thenReturn(List.of(origin_event));
+        when(reportRepository.save(any(Report.class))).thenReturn(new_report);
+
+        // when
         ReportCreateRequest request = new ReportCreateRequest();
-        Report newReport = reportService.createReport(request);
+        request.setCategory1(new_report.getCategory1());
+        request.setLatitude(new_report.getLatitude());
+        request.setLongitude(new_report.getLongitude());
 
-        //then
-        assertThat(newReport.getReportId()).isEqualTo(report.getReportId());
-        assertThat(newReport.getCategory1()).isEqualTo(report.getCategory1());
-        assertThat(newReport.getLatitude()).isEqualTo(report.getLatitude());
-        assertThat(newReport.getLongitude()).isEqualTo(report.getLongitude());
+        reportService.createReport(request);
 
+        // then
+        // 계산된 거리가 1km 이내인지 확인
+        // eventRepository.save()가 호출되었는지 확인
+        verify(eventRepository).save(any(Event.class));
+    }
+
+    @Test
+    @DisplayName("리포트 생성 : new event")
+    void createReportWithNewEvent() {
+        // given
+        // 공대5호관
+        Event origin_event = Event.builder()
+            .eventId(1)
+            .latitude(36.366526F)
+            .longitude(127.34431F)
+            .build();
+        // 유성온천역
+        Report new_report = Report.builder()
+            .reportId(1)
+            .category1(false)
+            .latitude(36.3537F)
+            .longitude(127.3415F)
+            .build();
+
+        when(eventRepository.findAll()).thenReturn(List.of(origin_event));
+        when(reportRepository.save(any(Report.class))).thenReturn(new_report);
+
+        // when
+        ReportCreateRequest request = new ReportCreateRequest();
+        request.setCategory1(new_report.getCategory1());
+        request.setLatitude(new_report.getLatitude());
+        request.setLongitude(new_report.getLongitude());
+
+        reportService.createReport(request);
+
+        // then
+        // 계산된 거리가 1km 이상인지 확인
+        // eventService.createEvent()가 호출되었는지 확인
+        verify(eventService).createEvent(any(EventCreateRequest.class));
     }
 
     @Test
@@ -70,9 +126,11 @@ class ReportServiceTest {
 
         //when
         int testId = 2;
-        Report findReport = reportService.getReport(testId).get();
+        Optional<Report> optionalReport = reportService.getReport(testId);
 
         // then
+        assertThat(optionalReport.isPresent()).isTrue();
+        Report findReport = optionalReport.get();
         assertThat(findReport.getReportId()).isEqualTo(report.getReportId());
         assertThat(findReport.getCategory1()).isEqualTo(report.getCategory1());
         assertThat(findReport.getLatitude()).isEqualTo(report.getLatitude());
@@ -113,7 +171,7 @@ class ReportServiceTest {
     @Test
     @DisplayName("리포트 수정")
     void updateReport() {
-        //given
+        // given
         // 새로운 리포트 생성
         int testId = 1;
         Report report = Report.builder()
@@ -125,18 +183,17 @@ class ReportServiceTest {
         when(reportRepository.save(any(Report.class))).thenReturn(report);
         when(reportRepository.findById(testId)).thenReturn(Optional.of(report));
 
-        ReportCreateRequest reportCreateRequest = new ReportCreateRequest();
-        Report newReport = reportService.createReport(reportCreateRequest);
+        Report newReport = reportRepository.save(report);
 
         // 임의 지정한 수정할 데이터
         ReportModifyRequest modifyRequest = new ReportModifyRequest();
         modifyRequest.setCategory2(Category2.FIRE);
         modifyRequest.setDetail("BIG FIRE!!! RUN!!");
 
-        //when
+        // when
         Report modifyReport = reportService.updateReport(testId, modifyRequest);
 
-        //then
+        // then
         assertThat(newReport.getReportId()).isEqualTo(modifyReport.getReportId());
         assertThat(newReport.getCategory1()).isEqualTo(modifyReport.getCategory1());
         assertThat(newReport.getCategory2()).isEqualTo(modifyReport.getCategory2());
