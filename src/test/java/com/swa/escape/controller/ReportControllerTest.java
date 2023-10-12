@@ -18,7 +18,6 @@ import com.swa.escape.dto.ReportModifyRequest;
 import com.swa.escape.service.ReportService;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,13 +43,23 @@ class ReportControllerTest {
   private ObjectMapper objectMapper;
 
   @Test
-  @Disabled
   void createReportTest() throws Exception {
     // given
+    int testId = 1;
     ReportCreateRequest reportRequest = new ReportCreateRequest();
     reportRequest.setCategory1(true);
     reportRequest.setLatitude(36.366535F);
     reportRequest.setLongitude(127.344508F);
+
+    Report report = Report.builder()
+        .reportId(testId)
+        .category1(reportRequest.getCategory1())
+        .latitude(reportRequest.getLatitude())
+        .longitude(reportRequest.getLongitude())
+        .detail("detail")
+        .build();
+
+    when(reportService.createReport(any(ReportCreateRequest.class))).thenReturn(report);
 
     // when // then
     mockMvc.perform(
@@ -58,9 +67,10 @@ class ReportControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(reportRequest)))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.category1").value(true))
-        .andExpect(jsonPath("$.latitude").value(36.366535F))
-        .andExpect(jsonPath("$.longitude").value(127.344508F))
+        .andExpect(jsonPath("$.reportId").value(testId))
+        .andExpect(jsonPath("$.category1").value(reportRequest.getCategory1()))
+        .andExpect(jsonPath("$.latitude").value(reportRequest.getLatitude()))
+        .andExpect(jsonPath("$.longitude").value(reportRequest.getLongitude()))
         .andDo(print()
         );
   }

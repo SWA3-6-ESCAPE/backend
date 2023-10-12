@@ -1,6 +1,7 @@
 package com.swa.escape.controller;
 
 import com.swa.escape.domain.Report;
+import com.swa.escape.dto.ReportCreateRequest;
 import com.swa.escape.dto.ReportModifyRequest;
 import com.swa.escape.service.ReportService;
 import java.util.Optional;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,14 +23,12 @@ public class ReportController {
   private final ReportService reportService;
 
   // 새 Report 추가하는 API
-//  @PostMapping("/report")
-//  public ResponseEntity<Report> createReport(@RequestBody ReportCreateRequest reportRequest) {
-//    Report report = Report.builder()
-//        .category1(reportRequest.getCategory1())
-//        .latitude(reportRequest.getLatitude()).
-//        longitude(reportRequest.getLongitude()).build();
-//    return ResponseEntity.ok(report);
-//  }
+  @PostMapping("/report")
+  public ResponseEntity<Report> createReport(@RequestBody ReportCreateRequest reportRequest) {
+    Report report = reportService.createReport(reportRequest);
+    return ResponseEntity.ok(report);
+  }
+
 
   // id에 해당하는 Report 가져오는 API
   @GetMapping("/report/{id}")
