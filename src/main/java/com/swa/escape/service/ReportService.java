@@ -1,6 +1,7 @@
 package com.swa.escape.service;
 
 import com.swa.escape.domain.Event;
+import com.swa.escape.domain.EventStatus;
 import com.swa.escape.domain.Report;
 import com.swa.escape.dto.EventCreateRequest;
 import com.swa.escape.dto.ReportCreateRequest;
@@ -38,26 +39,30 @@ public class ReportService implements ReportServiceImpl {
 
         reportRepository.save(newReport);
 
-        // 반경 1km 내에 속하는 이벤트가 있는 지
+        // 반경 1km 내에 속하는 이벤트가 있는 지 -> 일단은 처음 찾은 이벤트에 귀속 후 break;
         // 없다면 createEvent 호출
         for (Event e : eventRepository.findAll()) {
             double distance = Calcul.haversine(e.getLatitude(), e.getLongitude(), newReport.getLatitude(), newReport.getLongitude());
             if (distance < 1.0) {
                 e.getReports().add(newReport);
                 eventRepository.save(e);
-
-                // 해당 이벤트에 10개의 리포트가 채워졌는 지 -> 채워졌다면 이벤트 활성화
-                if (e.getReports().size() == 10) {
-                    eventService.enableEvent(e.getEventId());
-                }
-
                 break;
+
             } else {
                 EventCreateRequest eventRequest = new EventCreateRequest();
                 eventRequest.setEvent_latitude(newReport.getLatitude());
                 eventRequest.setEvent_longitude(newReport.getLongitude());
+                eventRequest.setEventStatus(EventStatus.AWAITING);
 
                 eventService.createEvent(eventRequest);
+            }
+
+        }
+
+        // 해당 이벤트에 10개의 리포트가 채워졌는 지 -> 채워졌다면 이벤트 활성화
+        for (Event e : eventRepository.findAll()) {
+            if (e.getReports().size() == 10) {
+                eventService.enableEvent(e.getEventId());
             }
         }
 
