@@ -39,32 +39,33 @@ public class ReportService implements ReportServiceImpl {
 
         reportRepository.save(newReport);
 
-        // 반경 1km 내에 속하는 이벤트가 있는 지 -> 일단은 처음 찾은 이벤트에 귀속 후 break;
         // 없다면 createEvent 호출
         for (Event e : eventRepository.findAll()) {
             double distance = Calcul.haversine(e.getLatitude(), e.getLongitude(), newReport.getLatitude(), newReport.getLongitude());
+            // 1km 이내에 이벤트가 있는 경우
             if (distance < 1.0) {
                 e.getReports().add(newReport);
+
+                // 10개가 채워졌으면 이벤트 활성화
+                if (e.getReports().size() == 10) {
+                    eventService.enableEvent(e.getEventId());
+                }
+                // 귀속
                 eventRepository.save(e);
-                break;
 
-            } else {
-                EventCreateRequest eventRequest = new EventCreateRequest();
-                eventRequest.setEvent_latitude(newReport.getLatitude());
-                eventRequest.setEvent_longitude(newReport.getLongitude());
-                eventRequest.setEventStatus(EventStatus.AWAITING);
-
-                eventService.createEvent(eventRequest);
+                // 함수 종료
+                return newReport;
             }
 
         }
+        // 1km 이내에 이벤트가 없는 경우
+        // 새로운 이벤트 생성
+        EventCreateRequest eventRequest = new EventCreateRequest();
+        eventRequest.setEvent_latitude(newReport.getLatitude());
+        eventRequest.setEvent_longitude(newReport.getLongitude());
+        eventRequest.setEventStatus(EventStatus.AWAITING);
 
-        // 해당 이벤트에 10개의 리포트가 채워졌는 지 -> 채워졌다면 이벤트 활성화
-        for (Event e : eventRepository.findAll()) {
-            if (e.getReports().size() == 10) {
-                eventService.enableEvent(e.getEventId());
-            }
-        }
+        eventService.createEvent(eventRequest);
 
         return newReport;
     }
