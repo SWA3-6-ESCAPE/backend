@@ -49,8 +49,9 @@ public class ReportService implements ReportServiceImpl {
             if (distance < EVENT_RADIUS) {
                 newReport.setEvent(e);
 
-                // 10개가 채워졌으면 이벤트 활성화
-                if (e.getReports().size() == REPORT_LIMIT) {
+                // REPORT_LIMIT 개가 채워졌으면 이벤트 활성화
+                // 아직 리포트가 이벤트에 추가가 되지 않았으므로 +1을 해준다
+                if (e.getReports().size()+1 == REPORT_LIMIT) {
                     eventService.enableEvent(e.getEventId());
                 }
                 // 귀속

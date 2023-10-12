@@ -43,9 +43,7 @@ public class Event {
     private List<Report> reports = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
-    private EventStatus eventStatus;
-
-
+    private EventStatus eventStatus = EventStatus.AWAITING;
 
     public void addReport(Report report) {
         reports.add(report);
