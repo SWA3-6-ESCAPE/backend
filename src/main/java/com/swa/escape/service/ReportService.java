@@ -31,6 +31,11 @@ public class ReportService implements ReportServiceImpl {
      */
     @Override
     public Report createReport(ReportCreateRequest reportRequest) {
+        // 이벤트로 귀속 시킬 반경
+        final double EVENT_RADIUS = 1.0;
+        // 이벤트가 활성화 되는 리포트 개수
+        final int REPORT_LIMIT = 2;
+
         // 새로운 리포트 생성
         Report newReport = new Report();
         newReport.setCategory1(reportRequest.getCategory1());
@@ -43,11 +48,11 @@ public class ReportService implements ReportServiceImpl {
         for (Event e : eventRepository.findAll()) {
             double distance = Calcul.haversine(e.getLatitude(), e.getLongitude(), newReport.getLatitude(), newReport.getLongitude());
             // 1km 이내에 이벤트가 있는 경우
-            if (distance < 1.0) {
+            if (distance < EVENT_RADIUS) {
                 e.getReports().add(newReport);
 
                 // 10개가 채워졌으면 이벤트 활성화
-                if (e.getReports().size() == 10) {
+                if (e.getReports().size() == REPORT_LIMIT) {
                     eventService.enableEvent(e.getEventId());
                 }
                 // 귀속
