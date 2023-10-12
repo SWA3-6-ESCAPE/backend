@@ -74,7 +74,7 @@ class ReportServiceTest {
         // then
         // 계산된 거리가 1km 이내인지 확인
         // eventRepository.save()가 호출되었는지 확인
-        verify(eventRepository).save(any(Event.class));
+        verify(reportRepository).save(any(Report.class));
     }
 
     @Test
@@ -97,6 +97,7 @@ class ReportServiceTest {
 
         when(eventRepository.findAll()).thenReturn(List.of(origin_event));
         when(reportRepository.save(any(Report.class))).thenReturn(new_report);
+        when(eventService.createEvent(any(EventCreateRequest.class))).thenReturn(new Event());
 
         // when
         ReportCreateRequest request = new ReportCreateRequest();
