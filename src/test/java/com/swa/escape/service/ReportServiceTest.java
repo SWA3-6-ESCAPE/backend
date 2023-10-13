@@ -141,7 +141,7 @@ class ReportServiceTest {
 
     @Test
     @DisplayName("모든 리포트 조회")
-    void getReports() {
+    void getAllReports() {
         //given
         List<Report> reportList = new ArrayList<>();
         Report report1 = Report.builder()
@@ -161,7 +161,7 @@ class ReportServiceTest {
         when(reportRepository.findAll()).thenReturn(reportList);
 
         //when
-        List<Report> reports = reportService.getReports();
+        List<Report> reports = reportService.getAllReports();
 
         //then
         assertThat(reports.size()).isEqualTo(2);

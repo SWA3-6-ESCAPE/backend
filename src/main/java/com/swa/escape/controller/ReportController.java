@@ -4,6 +4,8 @@ import com.swa.escape.domain.Report;
 import com.swa.escape.dto.ReportCreateRequest;
 import com.swa.escape.dto.ReportModifyRequest;
 import com.swa.escape.service.ReportService;
+
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +31,12 @@ public class ReportController {
     return ResponseEntity.ok(report);
   }
 
+  // 모든 Report 가져오는 API
+  @GetMapping("/report")
+  public ResponseEntity<List<Report>> getAllReports() {
+    List<Report> allReports = reportService.getAllReports();
+    return ResponseEntity.ok(allReports);
+  }
 
   // id에 해당하는 Report 가져오는 API
   @GetMapping("/report/{id}")
