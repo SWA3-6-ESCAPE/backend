@@ -60,8 +60,7 @@ class EventRepositoryTest {
 
     eventRepository.save(event1);
 
-
-    List<Event> allEvents = eventRepository.findAllEvents();
+    List<Event> allEvents = eventRepository.findAll();
 
     Assertions.assertThat(allEvents.get(0).getEventId()).isEqualTo(1);
     System.out.println("EventRepositoryTest.findEventsTest");
