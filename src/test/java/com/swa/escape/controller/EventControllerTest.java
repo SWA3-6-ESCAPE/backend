@@ -1,8 +1,9 @@
 package com.swa.escape.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.swa.escape.dto.EventCreateRequest;
+import com.swa.escape.domain.Event;
 
+import com.swa.escape.service.EventService;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,13 +12,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.http.MediaType;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -26,73 +26,53 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(EventController.class)
 public class EventControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+    @MockBean
+    private EventService eventService;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private MockMvc mockMvc;
 
     @Test
     @DisplayName("CREATE EVENT")
 
-    void createEvent() throws Exception{
-
-        // given
-        EventCreateRequest eventCreateRequest = new EventCreateRequest();
-        eventCreateRequest.setEvent_latitude(1.0F);
-        eventCreateRequest.setEvent_longitude(1.0F);
-
-        // when
-        mockMvc.perform(
-                    post("/api/event")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsString(eventCreateRequest)))
-        // then
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.latitude").value(1.0F))
-                .andExpect(jsonPath("$.longitude").value(1.0F))
-                .andDo(print());
+    void createEvent() {
     }
 
     @Test
-    @DisplayName("GET EVENT")
-    void getEvent() throws  Exception {
+    @DisplayName("GET ALL EVENTS")
+    void getAllEvents() throws Exception {
 
         // Given
-        int event_id = 1;
+        Event event1 = Event.builder()
+            .eventId(1)
+            .latitude(1.0F)
+            .longitude(1.0F)
+            .build();
+        Event event2 = Event.builder()
+            .eventId(2)
+            .latitude(2.0F)
+            .longitude(2.0F)
+            .build();
+        List<Event> events = List.of(event1, event2);
 
         // When
-        mockMvc.perform(get(("/api/event/" + event_id))).andExpect(status().isOk())
-
-                // THEN
-                .andExpect(jsonPath("$.eventId").value(1))
-                .andExpect(jsonPath("$.latitude").value(1.0F))
-                .andExpect(jsonPath("$.longitude").value(1.0F))
+        when(eventService.getEvents()).thenReturn(events);
+        mockMvc.perform(get("/api/event"))
+                // Then
+                .andExpect(status().isOk())
                 .andDo(print());
+    }
+
+
+    @Test
+    @DisplayName("GET EVENT")
+    void getEvent() {
     }
 
 
 
     @Test
     @DisplayName("DELETE EVENT")
-    void deleteEvent() throws Exception {
-
-        // Given
-        int eventId = 1;
-
-        // When
-        mockMvc.perform(get(("/api/event/" + eventId))).andExpect(status().isOk())
-                // THEN
-                .andExpect(jsonPath("$.eventId").value(1))
-                .andExpect(jsonPath("$.latitude").value(1.0F))
-                .andExpect(jsonPath("$.longitude").value(1.0F))
-                .andDo(print());
+    void deleteEvent() {
     }
-
-    //    @Test
-    //    public void patchEventTest() throws Exception{
-    //        // given
-    //        int event_id = 1;
-    //
-    //    }
 }

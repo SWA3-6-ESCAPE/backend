@@ -4,6 +4,7 @@ package com.swa.escape.controller;
 import com.swa.escape.domain.Event;
 import com.swa.escape.dto.EventCreateRequest;
 import com.swa.escape.service.EventService;
+import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,22 +33,20 @@ public class EventController {
         return ResponseEntity.ok(eventService.createEvent(eventRequest));
     }
 
+    @GetMapping("/event")
+    public ResponseEntity<List<Event>> getAllEvents() {
+        List<Event> events = eventService.getEvents();
+        return ResponseEntity.ok(events);
+    }
+
+    // Id로 Event를 조회하는 API
     @GetMapping("/event/{event_id}")
     public ResponseEntity<Event> getEvent(@PathVariable int event_id) {
         Optional<Event> event = eventService.getEvent(event_id);
         return event.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // 이부분은 사용할 일이 없어서 주석처리 했습니다.
-    // @PatchMapping("/event/{event_id}")
-    // public ResponseEntity<Event> updateEvent(@PathVariable int event_id) {
-    //     Event event = Event.builder()
-    //             .longitude(1.0F)
-    //             .latitude(1.0F)
-    //             .build();
-    //     return ResponseEntity.ok(event);
-    // }
-
+    // Id로 Event를 삭제하는 API
     @DeleteMapping("/event/{event_id}")
     public ResponseEntity<Event> deleteEvent(@PathVariable int event_id) {
         Optional<Event> event = eventService.getEvent(event_id);
