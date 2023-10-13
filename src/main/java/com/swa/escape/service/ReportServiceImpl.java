@@ -13,7 +13,7 @@ public interface ReportServiceImpl {
 //  Report ID로 한 개만 조회
     Optional<Report> getReport(int id);
 //  모든 Report 조회
-    List<Report> getReports();
+    List<Report> getAllReports();
 //  Report에 정보 추가
     Report updateReport(int id, ReportModifyRequest reportRequest);
 

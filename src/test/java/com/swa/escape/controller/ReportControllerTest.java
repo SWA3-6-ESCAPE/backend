@@ -16,6 +16,9 @@ import com.swa.escape.domain.Report;
 import com.swa.escape.dto.ReportCreateRequest;
 import com.swa.escape.dto.ReportModifyRequest;
 import com.swa.escape.service.ReportService;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
@@ -102,6 +105,37 @@ class ReportControllerTest {
         .andExpect(jsonPath("$.detail").value(report.getDetail()))
         .andDo(print()
         );
+  }
+
+  @Test
+  @DisplayName("모든 Report 가져오기")
+  void getAllReports() throws Exception {
+    // given
+    List<Report> reportList = new ArrayList<>();
+    Report report1 = Report.builder()
+            .reportId(1)
+            .category1(true)
+            .category2(Category2.ASSAULT)
+            .latitude(36.366535F)
+            .longitude(127.344508F)
+            .detail("detail")
+            .build();
+    reportList.add(report1);
+    Report report2 = Report.builder()
+            .reportId(2)
+            .category1(false)
+            .category2(Category2.FIRE)
+            .latitude(36.366535F)
+            .longitude(127.344508F)
+            .detail("detail")
+            .build();
+    reportList.add(report2);
+    when(reportService.getAllReports()).thenReturn(reportList);
+
+    // when // then
+    mockMvc.perform(get("/api/report"))
+            .andExpect(status().isOk())
+            .andDo(print());
   }
 
   @Test

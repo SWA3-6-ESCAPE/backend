@@ -83,7 +83,7 @@ public class ReportService implements ReportServiceImpl {
     }
 
     @Override
-    public List<Report> getReports() {
+    public List<Report> getAllReports() {
         return reportRepository.findAll();
     }
 
