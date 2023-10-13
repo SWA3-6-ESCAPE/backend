@@ -15,56 +15,51 @@ import java.util.List;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class EventRepositoryTest {
 
-  @Autowired
-  private EventRepository eventRepository;
+    @Autowired
+    private EventRepository eventRepository;
 
-  @Test
-  void CreateEvent() {
-    // Given
-    int eventId = 1;
-    Event event = Event.builder()
-            .eventId(eventId)
+    @Test
+    void CreateEvent() {
+        // Given
+        Event event = Event.builder()
             .latitude(1.0f)
             .longitude(1.0f)
             .build();
 
-    // When
-    System.out.println("event.getEventId() = " + event.getEventId());
-    eventRepository.save(event);
-    // Then
-    Event savedEvent = eventRepository.findById(eventId).orElse(null);
-    System.out.println("event.getEventId() = " + savedEvent.getEventId());
-    assert savedEvent != null;
-    assert savedEvent.getEventId() == event.getEventId();
-    assert savedEvent.getLatitude() == event.getLatitude();
-    assert savedEvent.getLongitude() == event.getLongitude();
-  }
+        // When
+        int eventId = eventRepository.save(event).getEventId();
 
-  @Test
-  void findEventsTest(){
+        // Then
+        Event savedEvent = eventRepository.findById(eventId).orElse(null);
+        assert savedEvent != null;
+        assert savedEvent.getEventId() == event.getEventId();
+        assert savedEvent.getLatitude() == event.getLatitude();
+        assert savedEvent.getLongitude() == event.getLongitude();
+    }
 
-    int eventId = 2;
-    Event event = Event.builder()
-            .eventId(eventId)
+    @Test
+    void findEventsTest() {
+        // Given
+        Event event1 = Event.builder()
             .latitude(1.0f)
             .longitude(1.0f)
             .build();
 
-    eventRepository.save(event);
 
-    Event event1 = Event.builder()
-            .eventId(++eventId)
+        Event event2 = Event.builder()
             .latitude(1.0f)
             .longitude(1.0f)
             .build();
 
-    eventRepository.save(event1);
+        // when
+        int eventId1 = eventRepository.save(event1).getEventId();
+        int eventId2 = eventRepository.save(event2).getEventId();
 
-    List<Event> allEvents = eventRepository.findAll();
+        // then
+        List<Event> allEvents = eventRepository.findAll();
 
-    Assertions.assertThat(allEvents.get(0).getEventId()).isEqualTo(1);
-    System.out.println("EventRepositoryTest.findEventsTest");
-    Assertions.assertThat(allEvents.get(1).getEventId()).isEqualTo(2);
-  }
+        Assertions.assertThat(allEvents.get(0).getEventId()).isEqualTo(eventId1);
+        Assertions.assertThat(allEvents.get(1).getEventId()).isEqualTo(eventId2);
+    }
 
 }
