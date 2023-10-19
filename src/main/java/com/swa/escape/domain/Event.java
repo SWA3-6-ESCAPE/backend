@@ -37,6 +37,9 @@ public class Event {
     @Column(name = "event_longitude")
     private float longitude;
 
+    @Column(name = "event_region")
+    private String eventRegion;
+
     @Builder.Default
     @OneToMany(mappedBy = "event", cascade= CascadeType.ALL)
     @JsonManagedReference

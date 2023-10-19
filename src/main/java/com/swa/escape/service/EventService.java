@@ -23,6 +23,10 @@ public class EventService implements EventServiceImpl {
         newEvent.setLatitude(eventRequest.getEvent_latitude());
         newEvent.setLongitude(eventRequest.getEvent_longitude());
 
+        // api 를 사용해 위도/경도를 지역 이름으로 변경하여 eventRegion 으로 저장
+        String region = addressConverter(eventRequest.getEvent_latitude(), eventRequest.getEvent_longitude());
+        newEvent.setEventRegion(region);
+
         return eventRepository.save(newEvent);
     }
 
@@ -59,6 +63,13 @@ public class EventService implements EventServiceImpl {
 
             // 활성화 후 알림을 ios 에게 전달해야 함
         }
+    }
+
+
+    // 주소 변환 메소드
+    public String addressConverter(float latitude, float longitude) {
+
+        return null;
     }
 
   
