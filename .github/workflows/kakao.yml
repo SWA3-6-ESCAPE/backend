@@ -1,4 +1,10 @@
+name : kakao_api_key_github_secret
+
 on:
+  push:
+    branches:
+      - '*'
+
 jobs:
   test:
     runs-on: ubuntu-latest
