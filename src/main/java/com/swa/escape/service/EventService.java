@@ -38,8 +38,8 @@ public class EventService implements EventServiceImpl {
         newEvent.setLongitude(eventRequest.getEvent_longitude());
 
         // api 를 사용해 위도/경도를 지역 이름으로 변경하여 eventAddress 으로 저장
-        String region = addressConverter(eventRequest.getEvent_latitude(), eventRequest.getEvent_longitude());
-        newEvent.setEventAddress(region);
+        String address = addressConverter(eventRequest.getEvent_latitude(), eventRequest.getEvent_longitude());
+        newEvent.setEventAddress(address);
 
         return eventRepository.save(newEvent);
     }
