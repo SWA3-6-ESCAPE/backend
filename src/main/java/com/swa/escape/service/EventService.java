@@ -19,7 +19,10 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import static java.lang.System.getenv;
 
 @Service
 @RequiredArgsConstructor
@@ -35,8 +38,8 @@ public class EventService implements EventServiceImpl {
         newEvent.setLongitude(eventRequest.getEvent_longitude());
 
         // api 를 사용해 위도/경도를 지역 이름으로 변경하여 eventAddress 으로 저장
-        String address = addressConverter(eventRequest.getEvent_latitude(), eventRequest.getEvent_longitude());
-        newEvent.setEventAddress(address);
+        String region = addressConverter(eventRequest.getEvent_latitude(), eventRequest.getEvent_longitude());
+        newEvent.setEventAddress(region);
 
         return eventRepository.save(newEvent);
     }
@@ -76,19 +79,17 @@ public class EventService implements EventServiceImpl {
         }
     }
 
-    @Value("${KAKAO_API_KEY}")
-    private String KakaoRestAPIKey;
 
     // 주소 변환 메소드
     public String addressConverter(float latitude, float longitude) {
 
-        //final String KakaoRestAPIKey = "ce3a4daf971569ebd3be3583b35cf664";
         String url = "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json";
+        Map<String, String> env = getenv(); // 환경 변수 가져오기 (KAKAO_API_KEY)
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
 
-        headers.set("Authorization", "KakaoAK " + KakaoRestAPIKey);
+        headers.set("Authorization", "KakaoAK " + env.get("KAKAO_API_KEY"));
         headers.set("Accept", "application/json");
         HttpEntity<String> entity = new HttpEntity<>(headers);
 

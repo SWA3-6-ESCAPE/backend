@@ -1,7 +1,7 @@
 # 공통 설정
 spring:
   profiles:
-    active: dev
+      active: dev
   jpa:
     open-in-view: true
     hibernate:
@@ -38,13 +38,4 @@ spring:
     url: ${MYSQL_URL}
     username: ${MYSQL_USERNAME}
     password: ${MYSQL_PASSWORD}
-
-
----
-
-kakao:
-  api:
-    key: ${KAKAO_API_KEY}
-
-
 
