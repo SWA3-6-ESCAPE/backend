@@ -63,6 +63,13 @@ class EventServiceTest {
     }
 
     @Test
+    void addressConverter() {
+        String address = eventService.addressConverter(36.369023F, 127.346090F);
+        System.out.println(address);
+
+    }
+
+    @Test
     void sendNotifications() {
     }
 

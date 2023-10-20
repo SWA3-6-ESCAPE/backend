@@ -37,8 +37,8 @@ public class Event {
     @Column(name = "event_longitude")
     private float longitude;
 
-    @Column(name = "event_region")
-    private String eventRegion;
+    @Column(name = "event_address")
+    private String eventAddress;
 
     @Builder.Default
     @OneToMany(mappedBy = "event", cascade= CascadeType.ALL)
