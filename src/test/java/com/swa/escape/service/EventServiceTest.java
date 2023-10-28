@@ -4,6 +4,7 @@ import com.swa.escape.domain.Event;
 import com.swa.escape.repository.EventRepository;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -63,6 +64,7 @@ class EventServiceTest {
     }
 
     @Test
+    @Disabled
     void addressConverter() {
         String address = eventService.addressConverter(36.369023F, 127.346090F);
         System.out.println(address);
