@@ -1,5 +1,5 @@
 
-# 1  프로젝트 소개 
+# 1. 프로젝트 소개 
 <!-- image 추가 -->
 ## - motivation & introduction : 
   CNU SW ACADEMY 3기 6조의 프로젝트는 "ㅌㅌ"입니다.
@@ -31,7 +31,7 @@
   <li> Oracle Cloud </li>
 </ul>
 
-# 4.  rule commite rule
+# 4. Rules
 
 ### Commit Convetion
 [Git - 커밋 메시지 컨벤션](https://doublesprogramming.tistory.com/256)
