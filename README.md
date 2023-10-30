@@ -1,7 +1,7 @@
 
 # 1  프로젝트 소개 
 <!-- image 추가 -->
-## motivation & introduction : 
+## - motivation & introduction : 
   CNU SW ACADEMY 3기 6조의 프로젝트는 "ㅌㅌ"입니다.
 
   프로젝트의 주제를 고민했던 23년 8월에, 대한민국에는 묻지마 사건이 동시다발적으로 일어났었습니다.
