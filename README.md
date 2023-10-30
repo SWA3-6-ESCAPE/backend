@@ -26,7 +26,7 @@
   <li> Oracle Cloud </li>
 </ul>
 
-# 5.  rule commite rule
+# 4.  rule commite rule
 
 ### Commit Convetion
 [Git - 커밋 메시지 컨벤션](https://doublesprogramming.tistory.com/256)
