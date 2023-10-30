@@ -7,7 +7,7 @@
 
 |<img src="back1.jpg" width= 80>|<img src="back2.jpg" width = 80>|
 |:--:|:--:|
-|[](https://github.com/orgs/SWA3-6-ESCAPE/people/SongAhyeon01)|[](https://github.com/bong-u)|
+|[ddd](https://github.com/orgs/SWA3-6-ESCAPE/people/SongAhyeon01)|[](https://github.com/bong-u)|
 | 백엔드 | 백엔드 |
 
 # 3. 프로젝트 구조 
