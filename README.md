@@ -14,7 +14,19 @@
 
 # 4.  기술 스택 
 
-5.  rule commite rule
+<!-- 이미지 ? -->
+
+<ul
+  <li> spring Boot </li>
+  <li> spring Data JPA </li>
+  <li> Mockito </li>
+  <li> MySQL </li>
+  <li> Swift </li>
+  <li> Nginx </li>
+  <li> heroku </li>
+</ul>
+
+# 5.  rule commite rule
 
 ### Commit Convetion
 [Git - 커밋 메시지 컨벤션](https://doublesprogramming.tistory.com/256)
