@@ -19,13 +19,13 @@
 |<img src="stack.jpg" width=500>|
 
 <ul>
-  <li> spring Boot </li>
-  <li> spring Data JPA </li>
+  <li> Spring Boot </li>
+  <li> Spring Data JPA </li>
   <li> Mockito </li>
   <li> MySQL </li>
   <li> Swift </li>
   <li> Nginx </li>
-  <li> heroku </li>
+  <li> Oracle Cloud </li>
 </ul>
 
 # 5.  rule commite rule
