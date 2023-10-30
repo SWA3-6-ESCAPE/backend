@@ -6,9 +6,9 @@
 # 2. 만든 사람들 
 
 |<img src="back1.jpg" width= 80>|<img src="back2.jpg" width = 80>|<img src="back3.jpg" width = 80>|<img src="mobile1.jpg" width = 80>|<img src="mobile2.jpg" width = 80>|
-|:--:|:--:|:--:|:--:|:--:|
-|[아현](https://github.com/orgs/SWA3-6-ESCAPE/people/SongAhyeon01)|[봉우](https://github.com/bong-u)|[진호](https://github.com/JJH123123123)|[윤서](https://github.com/orgs/SWA3-6-ESCAPE/people/uu2727318)|[은주](https://github.com/orgs/SWA3-6-ESCAPE/people/mobile-eunju)|
-| 백엔드 | 백엔드 | 백엔드 | 모바일 | 모바일 | 
+|:--:|:--:|:--:|:--:|:--:|:--:|
+|[아현](https://github.com/orgs/SWA3-6-ESCAPE/people/SongAhyeon01)|[봉우](https://github.com/bong-u)|[진호](https://github.com/JJH123123123)|[윤서](https://github.com/orgs/SWA3-6-ESCAPE/people/uu2727318)|[은주](https://github.com/orgs/SWA3-6-ESCAPE/people/mobile-eunju)|[장영](https://github.com/orgs/SWA3-6-ESCAPE/people/paintedblue)|
+| 백엔드 | 백엔드 | 백엔드 | 모바일 | 모바일 | 모바일 |
 
 # 3. 프로젝트 구조 
 
