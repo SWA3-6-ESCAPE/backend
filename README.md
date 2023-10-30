@@ -16,6 +16,8 @@
 
 <!-- 이미지 ? -->
 
+|<img src="stack.jpg" width=200>|
+
 <ul
   <li> spring Boot </li>
   <li> spring Data JPA </li>
