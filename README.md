@@ -16,7 +16,7 @@
 
 <!-- 이미지 ? -->
 
-|<img src="stack.jpg" width=200>|
+|<img src="stack.jpg" width=500>|
 
 <ul
   <li> spring Boot </li>
