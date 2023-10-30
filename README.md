@@ -18,7 +18,7 @@
 
 |<img src="stack.jpg" width=500>|
 
-<ul
+<ul>
   <li> spring Boot </li>
   <li> spring Data JPA </li>
   <li> Mockito </li>
